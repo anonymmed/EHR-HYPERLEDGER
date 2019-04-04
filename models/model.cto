@@ -86,7 +86,7 @@ transaction SampleTransaction {
 transaction PharmacyAddDrug {
   o Drug drug
   --> Patient patient
-  --> Pharmacy pharmacy
+  o Pharmacy pharmacy
 }
 transaction PharmacyAddDrugFromPrescription {
   --> Patient patient
