@@ -17,7 +17,7 @@
  */
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
-    participant: "model.SampleParticipant"
+    participant: "model.Practitioner"
     operation: READ
     resource: "model.*"
     action: ALLOW
@@ -25,7 +25,7 @@ rule EverybodyCanReadEverything {
 
 rule EverybodyCanSubmitTransactions {
     description: "Allow all participants to submit transactions"
-    participant: "model.SampleParticipant"
+    participant: "model.Practitioner"
     operation: CREATE
     resource: "model.SampleTransaction"
     action: ALLOW
@@ -33,9 +33,9 @@ rule EverybodyCanSubmitTransactions {
 
 rule OwnerHasFullAccessToTheirAssets {
     description: "Allow all participants full access to their assets"
-    participant(p): "model.SampleParticipant"
+    participant(p): "model.Practitioner"
     operation: ALL
-    resource(r): "model.SampleAsset"
+    resource(r): "model.Prescription"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
