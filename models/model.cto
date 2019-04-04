@@ -67,14 +67,14 @@ participant Patient identified by patientId {
   o String bloodType
   o Double height
   o Double weight
-  --> Drug[] pharmacyDrugs
+  o Drug[] pharmacyDrugs
   --> PhysicalActivity[] physicalActivity optional
   --> Nutrition[] nutrition optional
   --> MriResults[] mriResults optional
   --> Allergies[] allergies optional
   --> LabTestResults[] labTestResults optional
   --> ChronicDiseases[] chronicDiseases optional
-  --> Prescription[] prescriptions optional
+  --> Prescription[] prescriptions
   --> Consultation[] consultation optional
 }
 
@@ -86,12 +86,17 @@ transaction SampleTransaction {
 transaction PharmacyAddDrug {
   o Drug drug
   --> Patient patient
+  --> Pharmacy pharmacy
 }
 transaction PharmacyAddDrugFromPrescription {
   --> Patient patient
   o String prescriptionId
 }
 
+transaction addDrugToPrescription {
+  --> Prescription prescription
+  o Drug drug
+}
 /**
 * Our Events
  */
@@ -105,11 +110,6 @@ event PrescriptionFinished {
 event PharmacyAddDrugFinished {
   o String details
 }
-
-asset PharmacyDrugs identified by pharmacyDrugid {
-  o String pharmacyDrugid
-}
-
 /**
 * Our Assets
  */
