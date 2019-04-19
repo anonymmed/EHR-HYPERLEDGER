@@ -68,13 +68,14 @@ participant Patient identified by patientId {
   o Double height
   o Double weight
   o Drug[] pharmacyDrugs
+  o Drug[] practitionerDrugs
   --> PhysicalActivity[] physicalActivity optional
   --> Nutrition[] nutrition optional
   --> MriResults[] mriResults optional
   --> Allergies[] allergies optional
   --> LabTestResults[] labTestResults optional
   --> ChronicDiseases[] chronicDiseases optional
-  --> Prescription[] prescriptions
+  --> Prescription[] prescriptions optional
   --> Consultation[] consultation optional
 }
 
@@ -96,6 +97,30 @@ transaction PharmacyAddDrugFromPrescription {
 transaction addDrugToPrescription {
   --> Prescription prescription
   o Drug drug
+}
+event PractitionerAddDrugFinished {
+  o String details
+}
+event PractitionerAddConsultationFinished {
+  o String details
+}
+event PractitionerAddAllergieFinished {
+  o String details
+}
+event PractitionerAddMriFinished {
+  o String details
+}
+event PractitionerAddLabResFinished {
+  o String details
+}
+event PractitionerAddChronicDiseaseFinished {
+  o String details
+}
+asset PharmacyDrugs identified by pharmacyDrugid {
+  o String pharmacyDrugid
+}
+asset PractitionerDrugs identified by practitionerDrugs {
+  o String practitionerDrugs
 }
 /**
 * Our Events
