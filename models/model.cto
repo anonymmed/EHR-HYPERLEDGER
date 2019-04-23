@@ -88,13 +88,6 @@ participant Patient identified by patientId {
   o Consultation[] consultations optional
 }
 
-
-
-transaction SampleTransaction {
-  --> Patient patient
-  --> Practitioner practitioner
-}
-
 transaction PharmacyAddDrug {
   o Drug drug
   --> Patient patient
@@ -104,7 +97,13 @@ transaction PharmacyAddDrugFromPrescription {
   --> Patient patient
   o String prescriptionId
 }
-
+transaction addNewDrug {
+  o Drug drug
+}
+transaction verifyInteraction {
+  o String drugName
+  o String response
+}
 transaction addDrugToPrescription {
   --> Prescription prescription
   o Drug drug
@@ -157,6 +156,13 @@ event PrescriptionFinished {
   o Prescription[] oldPrescriptions
   o Prescription[] newPrescriptions
 
+}
+event returnInteractionResponse {
+  o String[] detail
+}
+
+event AddNewDrugSuccessfully {
+  o String detail
 }
 
 event PharmacyAddDrugFinished {
