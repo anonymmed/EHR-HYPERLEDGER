@@ -1,65 +1,142 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-/**
- * Sample access control list.
- */
-rule EverybodyCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "model.Practitioner"
-    operation: READ
+rule PatientManagePatients{
+  description: "Patient cannot MANAGE other patient"
+    participant: "model.Patient"
+    operation: UPDATE , DELETE , CREATE , READ
+    resource: "model.Patient"
+    action: DENY
+}
+
+rule PatientManagePractitioner{
+  description: "Patient cannot Manage (add , update , delete practitioners"
+    participant: "model.Patient"
+    operation: DELETE , UPDATE , CREATE
+    resource: "model.Practitioner"
+    action: DENY
+}
+
+rule PatientManageOthersMRIresult{
+  description: "Patient cannot Manage (add , update , delete , read )others mriResult"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.MriResults"
+  condition: (m.mriResults.some(function (mri) {
+        return mri.getIdentifier() !== v.getIdentifier();  
+        } )
+   )
+    action: DENY
+}
+
+rule PatientManageOthersAllergies{
+  description: "Patient cannot Manage (add , update , delete , read )others Allergies"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.Allergies"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+
+rule PatientManageOthersLabTestResults{
+  description: "Patient cannot Manage (add , update , delete , read )others LabTestResults"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.LabTestResults"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+
+rule PatientManageOthersChronicDiseases{
+  description: "Patient cannot Manage (add , update , delete , read )others ChronicDiseases"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.ChronicDiseases"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+
+rule PatientManageOthersPrescription{
+  description: "Patient cannot Manage (add , update , delete , read )others Prescription"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.Prescription"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+rule PatientManageOthersConsultation{
+  description: "Patient cannot Manage (add , update , delete , read )others Consultation"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.Consultation"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+rule PatientManageOthersNutrition{
+  description: "Patient cannot Manage (add , update , delete , read )others Nutrition"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.Nutrition"
+  condition: (m.nutritions.some(function (nut) {
+        return nut.getIdentifier() !== v.getIdentifier();  
+        } )
+   )
+    action: DENY
+}
+
+rule PatientManageOthersActivity{
+  description: "Patient cannot Manage (add , update , delete , read )others Activity"
+    participant(m): "model.Patient"
+    operation: ALL
+    resource(v): "model.PhysicalActivity"
+  condition: (m.getIdentifier() == v.patient.getIdentifier() )
+    action: DENY
+}
+
+
+
+rule PatientcnReadAllResources{
+  description: "Patient ReadAllResources"
+    participant: "model.Patient"
+    operation: ALL
+    resource: "model.Patient"
+    action: ALLOW
+}
+
+
+
+rule Default {
+  description: "Allow all participants access to all resources"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
     resource: "model.*"
     action: ALLOW
 }
 
-rule EverybodyCanSubmitTransactions {
-    description: "Allow all participants to submit transactions"
-    participant: "model.Practitioner"
-    operation: CREATE
-    resource: "model.SampleTransaction"
-    action: ALLOW
-}
-
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "model.Practitioner"
-    operation: ALL
-    resource(r): "model.Prescription"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
-
 rule SystemACL {
-  description:  "System ACL to permit all access"
-  participant: "org.hyperledger.composer.system.Participant"
-  operation: ALL
-  resource: "org.hyperledger.composer.system.**"
-  action: ALLOW
+  description: "Allow access  grant everything to everyone"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
 }
 
 rule NetworkAdminUser {
-    description: "Grant business network administrators full access to user resources"
+  description: "Grant Admin full access to resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"
     operation: ALL
     resource: "**"
     action: ALLOW
 }
 
+
+
+
 rule NetworkAdminSystem {
-    description: "Grant business network administrators full access to system resources"
+  description: "Grant Admin full access to system resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"
     operation: ALL
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
+
+
+
