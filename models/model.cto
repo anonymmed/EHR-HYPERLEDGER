@@ -103,6 +103,7 @@ transaction addNewDrug {
 transaction verifyInteraction {
   o String drugName
   o String response
+  --> Patient patient
 }
 transaction addDrugToPrescription {
   --> Prescription prescription
