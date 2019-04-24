@@ -100,9 +100,10 @@ transaction PharmacyAddDrugFromPrescription {
 transaction addNewDrug {
   o Drug drug
 }
+
+@returns(String[])
 transaction verifyInteraction {
   o String drugName
-  o String response
   --> Patient patient
 }
 transaction addDrugToPrescription {
