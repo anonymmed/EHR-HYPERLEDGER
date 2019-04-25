@@ -112,7 +112,7 @@ rule Default {
 }
 
 rule SystemACL {
-  description: "Allow access  grant everything to everyone"
+  description: "Allow aaccess  grant everything to everyone"
     participant: "org.hyperledger.composer.system.Participant"
     operation: ALL
     resource: "org.hyperledger.composer.system.**"

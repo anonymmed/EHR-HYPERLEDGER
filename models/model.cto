@@ -61,10 +61,10 @@ participant Practitioner identified by pratitionerId {
 }
 participant Patient identified by patientId {
   o String patientId
-  o String firstName
-  o String lastName
   o String photo
   o String Emprunt
+  o String firstName
+  o String lastName
   o genderType gender
   o DateTime dateOfBirth
   o String cin
@@ -76,16 +76,17 @@ participant Patient identified by patientId {
   o String bloodType
   o Double height
   o Double weight
-  o Drug[] pharmacyDrugs optional
-  o Drug[] practitionerDrugs optional
-  o PhysicalActivity[] physicalActivity optional
-  o Nutrition[] nutrition optional
-  o MriResults[] mriResults optional
-  o Allergies[] allergies optional
-  o LabTestResults[] labTestResults optional
-  o ChronicDiseases[] chronicDiseases optional
-  o Prescription[] prescriptions optional
-  o Consultation[] consultations optional
+  --> Drug[] pharmacyDrugs optional
+  --> Drug[] practitionerDrugs optional
+  --> PhysicalActivity[] physicalActivity optional
+  --> Nutrition[] nutrition optional
+  --> MriResults[] mriResults optional
+  --> Allergies[] allergies optional
+  --> LabTestResults[] labTestResults optional
+  --> ChronicDiseases[] chronicDiseases optional
+  --> Prescription[] prescriptions optional
+  --> Consultation[] consultations optional
+
 }
 
 transaction PharmacyAddDrug {
