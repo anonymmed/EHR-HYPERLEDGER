@@ -37,6 +37,17 @@ enum genderType {
   o String zipCode optional
   o String country optional
 }
+
+/**
+* DrugConsumption Concept
+ */
+
+ concept DrugConsumption {
+  o String mealTiming
+  o String[] consumptionTiming
+  o String quantity
+}
+
 /**
 * Our Participants
  */
@@ -47,6 +58,7 @@ participant  Pharmacy identified by pharmacyId {
   o String Emprunt
   o String phoneNumber
 }
+
 participant Practitioner identified by pratitionerId {
   o String pratitionerId
   o String firstName
@@ -59,6 +71,7 @@ participant Practitioner identified by pratitionerId {
   o String speciality
   --> Prescription[] prescriptions optional
 }
+
 participant Patient identified by patientId {
   o String patientId
   o String photo
@@ -88,7 +101,6 @@ participant Patient identified by patientId {
   o ChronicDiseases[] chronicDiseases optional
   o Prescription[] prescriptions optional
   o Consultation[] consultations optional
-
 }
 
 transaction PharmacyAddDrug {
@@ -124,6 +136,12 @@ transaction PractitionerAddConsultation {
   --> Patient patient
   --> Practitioner practitioner
 }
+transaction PractitionerAddPrescription {
+  o Prescription prescription
+  --> Patient patient
+  --> Practitioner practitioner
+}
+
 transaction PractitionerAddAllergie {
   o Allergies allergie
   --> Patient patient
@@ -191,6 +209,9 @@ event PractitionerAddLabResFinished {
 event PractitionerAddChronicDiseaseFinished {
   o String details
 }
+event PractitionerAddPrescriptionFinished {
+  o String details
+}
 
 /**
 * Our Assets
@@ -213,6 +234,8 @@ asset Drug identified by drugId {
   o String manufacturer
   o Double price
   o String lotNumber
+  o DrugConsumption consumption optional
+
 }
 
 asset MriResults identified by mriId {
@@ -220,6 +243,8 @@ asset MriResults identified by mriId {
   o String establishment
   o String reference
   o DateTime testDate
+  --> Practitioner[] pratitioners optional
+  --> Consultation consultation optional
 }
 
 asset Allergies identified by allergyId {
@@ -235,11 +260,17 @@ asset LabTestResults identified by labTestResultId {
   o DateTime testDate
   o String reference
   --> Practitioner[] pratitioners optional
+  --> Consultation consultation optional
+
 }
 
 asset ChronicDiseases identified by chronicDiseasesId {
   o String chronicDiseasesId
   o String name
+  o DateTime date
+  o String notes
+  --> Practitioner[] pratitioners optional
+
 }
 
 asset Prescription identified by prescriptionId {
@@ -251,6 +282,9 @@ asset Prescription identified by prescriptionId {
 asset Consultation identified by consultationId {
   o String consultationId
   o DateTime consultionDate
+  o String reason
+  o String output
+  o String notes
   --> Practitioner practitioner
 }
 
