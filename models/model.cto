@@ -78,10 +78,12 @@ participant Patient identified by patientId {
   o String bloodType
   o Double height
   o Double weight
+  o String[] minaccess optional
+  o String[] fullaccess optional
   o Drug[] pharmacyDrugs optional
   o Drug[] practitionerDrugs optional
-  o PhysicalActivity[] physicalActivity optional
-  o Nutrition[] nutrition optional
+  --> PhysicalActivity[] physicalActivity optional
+  --> Nutrition[] nutrition optional
   o MriResults[] mriResults optional
   o Allergies[] allergies optional
   o LabTestResults[] labTestResults optional
