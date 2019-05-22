@@ -104,6 +104,20 @@ participant Patient identified by patientId {
   o Prescription[] prescriptions optional
   o Consultation[] consultations optional
 }
+participant Admin identified by admintId {
+  o String admintId
+  o String firstName
+  o String lastName
+  o genderType gender optional
+  o DateTime dateOfBirth optional
+  o String cin optional
+  o Address address optional
+  o String phone optional
+  o String email optional
+  o String username		
+  o String password
+
+}
 
 transaction PharmacyAddDrug {
   o Drug drug
